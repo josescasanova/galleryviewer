@@ -28,7 +28,7 @@ class App extends React.Component {
     this._handleFetchImages();
   }
 
-  _handleFetchImages = (filters) => {
+  _handleFetchImages = () => {
     this.setState({
       isLoading: true,
       error: null,
