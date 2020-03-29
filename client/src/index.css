@@ -1,7 +1,14 @@
 body {
   margin: 0;
-  font-family: 'Roboto';
+  font-family: 'Roboto Slab', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding: 48px;
+}
+
+
+@media (max-width: 80.0rem) {
+  body {
+    padding: 8px;
+  }
 }

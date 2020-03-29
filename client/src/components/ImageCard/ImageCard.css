@@ -1,5 +1,23 @@
 .image-card {
+  margin-bottom: 64px;
+}
+
+.image-card img {
   border-radius: 8px;
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.08);
-  margin: 8px;
+}
+
+.image-card__footer {
+  padding: 4px;
+  font-size: 12px;
+}
+
+@media (max-width: 80.0rem) {
+  .image-card {
+    margin-bottom: 32px;
+  }
+
+  .image-card img {
+    width: 100%;
+  }
 }

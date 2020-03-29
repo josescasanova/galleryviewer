@@ -4,3 +4,9 @@
   justify-content: center;
   margin-bottom: 24px;
 }
+
+@media (max-width: 80.0rem) {
+  .paginator {
+    flex-wrap: wrap;
+  }
+}

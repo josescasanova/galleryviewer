@@ -71,10 +71,6 @@ class App extends React.Component {
     }, this._handleFetchImages);
   }
 
-  handleClickImage = () => {
-    // TODO
-  }
-
   handleClickPageButton = (currentPage) => {
     this.setState({ currentPage }, this._handleFetchImages);
   }

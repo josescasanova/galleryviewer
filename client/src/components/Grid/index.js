@@ -13,9 +13,9 @@ function Grid(props) {
       row = [];
     }
   });
-  // TODO make sure this renders everything
+
   return (
-    <div className="grid container">
+    <div className="grid">
       {rows.map((row, rowIndex) => (
         <div className="row" key={rowIndex}>
           {row.map((child, columnIndex) => (

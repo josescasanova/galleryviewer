@@ -3,3 +3,14 @@
   justify-content: space-evenly;
   margin-bottom: 24px;
 }
+
+.control-buttons button {
+  margin-bottom: 16px;
+}
+
+@media (max-width: 40.0rem) {
+  .control-buttons {
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+}

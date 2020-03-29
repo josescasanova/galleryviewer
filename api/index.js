@@ -9,6 +9,8 @@ const port = 3001;
 app.use(cors());
 
 // Helpers
+
+// Standardizes the images into an object to allow front end manipulation
 function standardizeImageObjects(data, filters) {
   const shouldShowGray = filters.shouldShowGray;
   const images = data.map(image => {
@@ -20,6 +22,7 @@ function standardizeImageObjects(data, filters) {
       id: imageUrl.split('/')[4],
       width: imageUrl.split('/')[5],
       height: imageUrl.split('/')[6],
+      params: shouldShowGray ? `?grayscale=true` : '',
     }
   });
 
@@ -35,6 +38,7 @@ function standardizeImageObjects(data, filters) {
   return uniqueImages;
 };
 
+// Gather the unique dimension sets from all the images
 function gatherUniqueDimensions(images) {
   const dimensions = images.map(image => `${image.height}x${image.width}`);
   let uniqueDimensions = [];
@@ -48,13 +52,13 @@ function gatherUniqueDimensions(images) {
   return uniqueDimensions;
 }
 
+// Pagination for the images
 function paginateImages(images, options) {
   const endLimit = options.page * options.offset;
   const startLimit = endLimit - options.offset;
   let paginatedImages = [];
   for (let i = startLimit; i < endLimit; i++) {
     const image = images[i];
-    // TODO needs to take into account 0 placement
     if (image) {
       paginatedImages.push(images[i]);
     }
@@ -63,6 +67,7 @@ function paginateImages(images, options) {
   return paginatedImages;
 }
 
+// Filters the images based on the options criteria
 function filterImages(images, options) {
   if (!options.dimension) return images;
 
@@ -78,6 +83,7 @@ function filterImages(images, options) {
 }
 
 // Routes
+
 app.get('/', (req, res) => {
   console.log('Fetching results...');
   const results = [];
@@ -109,6 +115,7 @@ app.get('/', (req, res) => {
     res.send({
       dimensions: [],
       images: [],
+      count: 0,
       error: err,
     });
   }
