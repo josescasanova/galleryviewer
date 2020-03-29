@@ -7,7 +7,7 @@ import Paginator from './components/Paginator';
 import Grid from './components/Grid';
 
 const PAGINATION_OFFSET = 6;
-// TODO handle mobile
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -47,7 +47,6 @@ class App extends React.Component {
     fetch(requestUrl)
       .then(res => res.json())
       .then((data) => {
-        // TODO handle error
         this.setState({
           dimensions: data.dimensions,
           images: data.images,
@@ -93,9 +92,30 @@ class App extends React.Component {
   }
 
   render() {
-    // TODO figure out why theres a double render
-    console.log(this.state);
-    // TODO loader // blank state
+    if (this.state.error) {
+      return (
+        <div className="container">
+          <Header />
+          <h2>
+            :( an error has occured.
+          </h2>
+          <h4>{this.state.error.toString() || 'Is the server running?'}</h4>
+        </div>
+      )
+    }
+
+
+    if (!this.state.isLoading && this.state.images.length === 0) {
+      return (
+        <div className="container">
+          <Header />
+          <h2>
+            No images found :(
+          </h2>
+        </div>
+      )
+    }
+
     return (
       <div className="container">
         <Header />
@@ -106,14 +126,18 @@ class App extends React.Component {
           onGrayScaleToggle={this.handleGrayScaleToggle}
           selectedDimension={this.state.selectedDimension}
         />
-        <Grid columns={3}>
-          {this.state.images.map((image) => (
-            <ImageCard
-              key={image.id}
-              image={image}
-            />
-          ))}
-        </Grid>
+        {this.state.isLoading ? (
+          <h2>Loading...</h2>
+        ) : (
+          <Grid columns={3}>
+            {this.state.images.map((image) => (
+              <ImageCard
+                key={image.id}
+                image={image}
+              />
+            ))}
+          </Grid>
+        )}
         <Paginator
           count={this.state.imageCount}
           offset={PAGINATION_OFFSET}

@@ -2,7 +2,6 @@ import React from 'react';
 
 class PageButton extends React.PureComponent {
   handleClickButton = () => {
-    // TODO push ?p=X
     this.props.onClickButton(this.props.page);
   }
 

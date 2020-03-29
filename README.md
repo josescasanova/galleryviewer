@@ -2,7 +2,18 @@
 
 This application is built with a simple React frontend and simple node backend.
 
+For frontend, this uses the create-react-app as a base starter. No other packages were included.
+
+For backend, the node server utilizes express with the cors package & csv-parser for parsing the CSV.
 
 ## Build instructions
-TODO npm install client + npm start
-TODO npm api + npm start
+
+### API
+- `cd api`
+- `npm install`
+- `npm start`
+
+### Client
+- `cd client`
+- `npm install`
+- `npm start`

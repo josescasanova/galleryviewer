@@ -11,10 +11,9 @@ class ControlButtons extends React.PureComponent {
     return (
       <div className="control-buttons">
         <button
-        // TODO styling colors
           className={`button ${props.isGrayscaleToggled ? 'button-outline' : ''}`}
           onClick={props.onGrayScaleToggle}>
-          {props.isGrayscaleToggled ? 'Color me!' : 'Turn me Gray!'}
+          {props.isGrayscaleToggled ? 'Toggle Color' : 'Toggle Grayscale'}
         </button>
         <form>
           <fieldset>
