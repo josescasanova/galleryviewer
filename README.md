@@ -6,6 +6,8 @@ For frontend, this uses the create-react-app as a base starter. No other package
 
 For backend, the node server utilizes express with the cors package & csv-parser for parsing the CSV.
 
+![Gallery Viewer](http://g.recordit.co/tqIrzAHG6T.gif)
+
 ## Build instructions
 
 ### API
