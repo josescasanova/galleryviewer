@@ -53,15 +53,28 @@ function paginateImages(images, options) {
   const startLimit = endLimit - options.offset;
   let paginatedImages = [];
   for (let i = startLimit; i < endLimit; i++) {
+    const image = images[i];
     // TODO needs to take into account 0 placement
-    paginatedImages.push(images[i]);
+    if (image) {
+      paginatedImages.push(images[i]);
+    }
   }
 
   return paginatedImages;
 }
 
 function filterImages(images, options) {
-  return images;
+  if (!options.dimension) return images;
+
+  const filteredImages = images.filter(image => {
+    if (`${image.height}x${image.width}` === options.dimension) {
+      return image;
+    }
+
+    return null;
+  });
+
+  return filteredImages.filter((image) => !!image);
 }
 
 // Routes
@@ -78,7 +91,9 @@ app.get('/', (req, res) => {
     .on('end', () => {
       const images = standardizeImageObjects(results, { shouldShowGray: shouldShowGray });
       const dimensions = gatherUniqueDimensions(images);
-      const filteredImages = filterImages(images);
+      const filteredImages = filterImages(images, {
+        dimension: req.query.dimension,
+      });
       const paginatedImages = paginateImages(filteredImages, {
         page: req.query.page || 1,
         offset: req.query.offset || 6,
@@ -86,7 +101,7 @@ app.get('/', (req, res) => {
       res.send({
         dimensions,
         images: paginatedImages,
-        count: images.length,
+        count: filteredImages.length,
         error: null,
       });
     });

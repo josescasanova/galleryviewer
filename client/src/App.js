@@ -41,7 +41,7 @@ class App extends React.Component {
     }
 
     if (this.state.selectedDimension) {
-      requestUrl += '&dimension=true';
+      requestUrl += `&dimension=${this.state.selectedDimension}`;
     }
 
     fetch(requestUrl)
@@ -65,7 +65,10 @@ class App extends React.Component {
   }
 
   handleDimensionsToggle = (selectedDimension) => {
-    this.setState({ selectedDimension }, this._handleFetchImages);
+    this.setState({
+      selectedDimension,
+      currentPage: 1,
+    }, this._handleFetchImages);
   }
 
   handleClickImage = () => {
@@ -80,6 +83,7 @@ class App extends React.Component {
     // TODO push ?grayscale
     this.setState({
       isGrayscaleToggled: !this.state.isGrayscaleToggled,
+      currentPage: 1,
     }, this._handleFetchImages);
   }
 
