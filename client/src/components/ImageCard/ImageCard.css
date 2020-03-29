@@ -1,3 +1,5 @@
 .image-card {
-  /* TODO */
+  border-radius: 8px;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  margin: 8px;
 }
