@@ -117,7 +117,7 @@ class App extends React.Component {
     }
 
     return (
-      <div className="container">
+      <div className={`container ${this.state.isGrayscaleToggled ? 'grey-theme' : ''}`}>
         <Header />
         <ControlButtons
           dimensions={this.state.dimensions}
