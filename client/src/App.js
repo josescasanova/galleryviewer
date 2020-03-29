@@ -17,7 +17,7 @@ class App extends React.Component {
       error: null,
       images: [],
       isLoading: false,
-      isGrayscaleToggled: false,
+      isGrayscaleToggled: window.location.search.indexOf('grayscale') > 0,
       currentPage: 1,
       imageCount: null,
       selectedDimension: '',
@@ -80,7 +80,16 @@ class App extends React.Component {
   }
 
   handleGrayScaleToggle = () => {
-    // TODO push ?grayscale
+    const baseUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
+    let url = baseUrl;
+    if (this.state.isGrayscaleToggled) {
+      url = baseUrl;
+    } else {
+      url = baseUrl + '?grayscale';
+    }
+
+    window.history.pushState({ path: url }, '', url);
+
     this.setState({
       isGrayscaleToggled: !this.state.isGrayscaleToggled,
       currentPage: 1,
