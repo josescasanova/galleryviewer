@@ -35,21 +35,20 @@ function standardizeImageObjects(data, filters) {
   return uniqueImages;
 };
 
-function gatherUniqueDimentions(images) {
-  const dimentions = images.map(image => `${image.height}x${image.width}`);
-  let uniqueDimentions = [];
-  dimentions.forEach(function (dimention) {
-    let i = uniqueDimentions.findIndex(x => x == dimention);
+function gatherUniqueDimensions(images) {
+  const dimensions = images.map(image => `${image.height}x${image.width}`);
+  let uniqueDimensions = [];
+  dimensions.forEach(function (dimension) {
+    let i = uniqueDimensions.findIndex(x => x == dimension);
     if (i <= -1) {
-      uniqueDimentions.push(dimention);
+      uniqueDimensions.push(dimension);
     }
   });
 
-  return uniqueDimentions;
+  return uniqueDimensions;
 }
 
 function paginateImages(images, options) {
-  console.log('options: ', options);
   const endLimit = options.page * options.offset;
   const startLimit = endLimit - options.offset;
   let paginatedImages = [];
@@ -61,10 +60,16 @@ function paginateImages(images, options) {
   return paginatedImages;
 }
 
+function filterImages(images, options) {
+  return images;
+}
+
 // Routes
 app.get('/', (req, res) => {
+  console.log('Fetching results...');
   const results = [];
   const shouldShowGray = !!req.query.grayscale;
+  console.log('Query Params: ', req.query);
 
   try {
   fs.createReadStream('./data.csv')
@@ -72,13 +77,14 @@ app.get('/', (req, res) => {
     .on('data', (data) => results.push(data))
     .on('end', () => {
       const images = standardizeImageObjects(results, { shouldShowGray: shouldShowGray });
-      const dimentions = gatherUniqueDimentions(images);
-      const paginatedImages = paginateImages(images, {
+      const dimensions = gatherUniqueDimensions(images);
+      const filteredImages = filterImages(images);
+      const paginatedImages = paginateImages(filteredImages, {
         page: req.query.page || 1,
-        offset: req.query.offset || 5,
+        offset: req.query.offset || 6,
       });
       res.send({
-        dimentions,
+        dimensions,
         images: paginatedImages,
         count: images.length,
         error: null,
@@ -86,7 +92,7 @@ app.get('/', (req, res) => {
     });
   } catch (err) {
     res.send({
-      dimentions: [],
+      dimensions: [],
       images: [],
       error: err,
     });

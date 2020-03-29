@@ -13,13 +13,14 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      dimentions: [],
+      dimensions: [],
       error: null,
       images: [],
       isLoading: false,
       isGrayscaleToggled: false,
       currentPage: 1,
       imageCount: null,
+      selectedDimension: '',
     }
   }
 
@@ -29,16 +30,18 @@ class App extends React.Component {
 
   _handleFetchImages = (filters) => {
     this.setState({
-      dimentions: [],
-      images: [],
       isLoading: true,
       error: null,
     });
 
-    let requestUrl = `http://localhost:3001/?p=${this.state.currentPage}&offset=${PAGINATION_OFFSET}`;
+    let requestUrl = `http://localhost:3001/?page=${this.state.currentPage}&offset=${PAGINATION_OFFSET}`;
 
     if (this.state.isGrayscaleToggled) {
       requestUrl += '&grayscale=true';
+    }
+
+    if (this.state.selectedDimension) {
+      requestUrl += '&dimension=true';
     }
 
     fetch(requestUrl)
@@ -46,7 +49,7 @@ class App extends React.Component {
       .then((data) => {
         // TODO handle error
         this.setState({
-          dimentions: data.dimentions,
+          dimensions: data.dimensions,
           images: data.images,
           imageCount: data.count,
           isLoading: false,
@@ -54,23 +57,23 @@ class App extends React.Component {
       })
       .catch((err) => {
         this.setState({
-          dimentions: [],
+          dimensions: [],
           error: err,
           isLoading: false,
         });
       })
   }
 
-  handleDimentionsToggle = () => {
-    this._handleFetchImages({ dimentions: 'x' });
+  handleDimensionsToggle = (selectedDimension) => {
+    this.setState({ selectedDimension }, this._handleFetchImages);
   }
 
   handleClickImage = () => {
-
+    // TODO
   }
 
-  handleClickPageButton = (page) => {
-    this.setState({ currentPage: page }, this._handleFetchImages);
+  handleClickPageButton = (currentPage) => {
+    this.setState({ currentPage }, this._handleFetchImages);
   }
 
   handleGrayScaleToggle = () => {
@@ -88,10 +91,11 @@ class App extends React.Component {
       <div className="container">
         <Header />
         <ControlButtons
-          dimentions={this.state.dimentions}
+          dimensions={this.state.dimensions}
           isGrayscaleToggled={this.state.isGrayscaleToggled}
-          onDimentionsToggle={this.handleDimentionsToggle}
+          onDimensionsToggle={this.handleDimensionsToggle}
           onGrayScaleToggle={this.handleGrayScaleToggle}
+          selectedDimension={this.state.selectedDimension}
         />
         <Grid columns={3}>
           {this.state.images.map((image) => (

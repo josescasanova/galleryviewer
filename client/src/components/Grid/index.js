@@ -13,12 +13,13 @@ function Grid(props) {
       row = [];
     }
   });
+  // TODO make sure this renders everything
   return (
     <div className="grid container">
-      {rows.map((row) => (
-        <div className="row">
-          {row.map(child => (
-            <div className="column">
+      {rows.map((row, rowIndex) => (
+        <div className="row" key={rowIndex}>
+          {row.map((child, columnIndex) => (
+            <div className="column" key={columnIndex}>
               {child}
             </div>
           ))}

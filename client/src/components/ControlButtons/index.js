@@ -12,10 +12,12 @@ function ControlButtons(props) {
       </button>
       <form>
         <fieldset>
-          <select>
-            <option value="">Filter by Dimentions</option>
-            {props.dimentions.map((dimention) => (
-              <option value={dimention} key={dimention}>{dimention}</option>
+          <select
+            value={props.selectedDimension}
+            onChange={props.onDimensionsToggle}>
+            <option value="">Filter by Dimensions</option>
+            {props.dimensions.map((dimension) => (
+              <option value={dimension} key={dimension}>{dimension}</option>
             ))}
           </select>
         </fieldset>
